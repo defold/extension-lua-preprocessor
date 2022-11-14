@@ -1,0 +1,10 @@
+local test = require("main.test")
+
+function init(self)
+	--#IF DEBUG 
+	label.set_text("#label", "Debug")
+	--#ELSE
+	label.set_text("#label", "Release")
+	--#ENDIF
+	test.greet("Bob")
+end
