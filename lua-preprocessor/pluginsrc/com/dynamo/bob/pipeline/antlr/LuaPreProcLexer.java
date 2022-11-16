@@ -1,5 +1,5 @@
-package com.dynamo.bob.pipeline.antlr;
 // Generated from LuaPreProcLexer.g4 by ANTLR 4.9.1
+package com.dynamo.bob.pipeline.antlr;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
