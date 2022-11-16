@@ -28,14 +28,13 @@ public class LuaPreprocessor extends LuaBuilderPlugin {
 
 private static StringBuffer parsedBuffer = null;
 private static Boolean hasChanges;
-private static int buildVariant;
-
-private CommonTokenStream tokenStream = null;
+private static int currentBuildVariant;
 
     // replace the token with an empty string
     private static void removeToken(Token token) {
         LuaPreprocessor.hasChanges = true;
         int from = token.getStartIndex();
+        Bob.verbose("removeToken %s", token.getText());
         int to = from + token.getText().length() - 1;
         for(int i = from; i <= to; i++) {
             parsedBuffer.replace(i, i + 1, " ");
@@ -46,13 +45,13 @@ private CommonTokenStream tokenStream = null;
         switch (variant)
         {
             case Bob.VARIANT_DEBUG:
-                buildVariant = LuaPreProcParser.PP_PARAM_DEBUG;
+                currentBuildVariant = LuaPreProcParser.PP_PARAM_DEBUG;
                 break;
             case Bob.VARIANT_RELEASE:
-                buildVariant = LuaPreProcParser.PP_PARAM_RELEASE;
+                currentBuildVariant = LuaPreProcParser.PP_PARAM_RELEASE;
                 break;
             case Bob.VARIANT_HEADLESS:
-                buildVariant = LuaPreProcParser.PP_PARAM_HEADLESS;
+                currentBuildVariant = LuaPreProcParser.PP_PARAM_HEADLESS;
                 break;
             default:
                 throw new RuntimeException(String.format("Invalid variant %s", variant));
@@ -60,13 +59,14 @@ private CommonTokenStream tokenStream = null;
     }
 
     @Override
-    public String create(String input) throws Exception {
+    public String create(String filePath, String input, String buildVariant) throws Exception {
         TimeProfiler.start("LuaPreprocessor");
-        setBuildVariant(Bob.VARIANT_RELEASE);
+        Bob.verbose("LuaPreprocessor %s", filePath);
+        setBuildVariant(buildVariant);
         LuaPreprocessor.hasChanges = false;
         parsedBuffer = new StringBuffer(input);
         LuaPreProcLexer lexer = new LuaPreProcLexer(CharStreams.fromString(input));
-        tokenStream = new CommonTokenStream(lexer);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         LuaPreProcParser parser = new LuaPreProcParser(tokenStream);
         ParseTreeWalker walker = new ParseTreeWalker();
         LuaPreprocessor.LuaPreprocessorListener listener = new LuaPreprocessor.LuaPreprocessorListener();
@@ -75,8 +75,10 @@ private CommonTokenStream tokenStream = null;
         TimeProfiler.stop();
 
         if (LuaPreprocessor.hasChanges) {
+            Bob.verbose("LuaPreprocessor: apply %s", buildVariant);
             return parsedBuffer.toString();
         }
+        Bob.verbose("LuaPreprocessor: file has no preprocessing directives");
         return input;
     }
 
@@ -92,7 +94,7 @@ private CommonTokenStream tokenStream = null;
         @Override
         public void enterIfdef(LuaPreProcParser.IfdefContext ctx) {
             int currentToken = ctx.param().getStart().getType();
-            if (currentToken != buildVariant) {
+            if (currentToken != currentBuildVariant) {
                 isInRemovingMode = true;
             }
         }

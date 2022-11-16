@@ -18,9 +18,9 @@ public class LuaPreProcParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		MODE_PP=1, MODE_LINE=2, PP_IFDEF=3, PP_ELSE=4, PP_ENDIF=5, PP_PARAM_RELEASE=6, 
-		PP_PARAM_DEBUG=7, PP_PARAM_HEADLESS=8, PP_TEXT=9, PP_EOL=10, PP_WS=11, 
-		TEXT=12, EOL=13;
+		MODE_PP=1, MODE_LINE=2, EMPTY_LINE=3, PP_IFDEF=4, PP_ELSE=5, PP_ENDIF=6, 
+		PP_PARAM_RELEASE=7, PP_PARAM_DEBUG=8, PP_PARAM_HEADLESS=9, PP_TEXT=10, 
+		PP_EOL=11, PP_WS=12, TEXT=13, EOL=14;
 	public static final int
 		RULE_codefile = 0, RULE_preproc = 1, RULE_param = 2, RULE_ifdef = 3, RULE_elsedef = 4, 
 		RULE_endif = 5, RULE_line = 6;
@@ -33,16 +33,16 @@ public class LuaPreProcParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, "'IF'", "'ELSE'", "'ENDIF'", "'RELEASE'", "'DEBUG'", 
+			null, null, null, null, "'IF'", "'ELSE'", "'ENDIF'", "'RELEASE'", "'DEBUG'", 
 			"'HEADLESS'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "MODE_PP", "MODE_LINE", "PP_IFDEF", "PP_ELSE", "PP_ENDIF", "PP_PARAM_RELEASE", 
-			"PP_PARAM_DEBUG", "PP_PARAM_HEADLESS", "PP_TEXT", "PP_EOL", "PP_WS", 
-			"TEXT", "EOL"
+			null, "MODE_PP", "MODE_LINE", "EMPTY_LINE", "PP_IFDEF", "PP_ELSE", "PP_ENDIF", 
+			"PP_PARAM_RELEASE", "PP_PARAM_DEBUG", "PP_PARAM_HEADLESS", "PP_TEXT", 
+			"PP_EOL", "PP_WS", "TEXT", "EOL"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -477,18 +477,18 @@ public class LuaPreProcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17.\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20.\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\6\2\23\n\2\r\2\16\2"+
 		"\24\3\2\3\2\3\3\3\3\3\3\5\3\34\n\3\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6"+
-		"\3\7\3\7\5\7)\n\7\3\b\3\b\3\b\3\b\2\2\t\2\4\6\b\n\f\16\2\4\3\2\b\n\4\3"+
-		"\f\f\17\17\2+\2\22\3\2\2\2\4\33\3\2\2\2\6\35\3\2\2\2\b\37\3\2\2\2\n#\3"+
-		"\2\2\2\f&\3\2\2\2\16*\3\2\2\2\20\23\5\4\3\2\21\23\5\16\b\2\22\20\3\2\2"+
-		"\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\26\3\2\2"+
-		"\2\26\27\7\2\2\3\27\3\3\2\2\2\30\34\5\b\5\2\31\34\5\n\6\2\32\34\5\f\7"+
-		"\2\33\30\3\2\2\2\33\31\3\2\2\2\33\32\3\2\2\2\34\5\3\2\2\2\35\36\t\2\2"+
-		"\2\36\7\3\2\2\2\37 \7\5\2\2 !\5\6\4\2!\"\7\f\2\2\"\t\3\2\2\2#$\7\6\2\2"+
-		"$%\7\f\2\2%\13\3\2\2\2&(\7\7\2\2\')\7\f\2\2(\'\3\2\2\2()\3\2\2\2)\r\3"+
-		"\2\2\2*+\7\16\2\2+,\t\3\2\2,\17\3\2\2\2\6\22\24\33(";
+		"\3\7\3\7\5\7)\n\7\3\b\3\b\3\b\3\b\2\2\t\2\4\6\b\n\f\16\2\4\3\2\t\13\4"+
+		"\3\r\r\20\20\2+\2\22\3\2\2\2\4\33\3\2\2\2\6\35\3\2\2\2\b\37\3\2\2\2\n"+
+		"#\3\2\2\2\f&\3\2\2\2\16*\3\2\2\2\20\23\5\4\3\2\21\23\5\16\b\2\22\20\3"+
+		"\2\2\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\26\3"+
+		"\2\2\2\26\27\7\2\2\3\27\3\3\2\2\2\30\34\5\b\5\2\31\34\5\n\6\2\32\34\5"+
+		"\f\7\2\33\30\3\2\2\2\33\31\3\2\2\2\33\32\3\2\2\2\34\5\3\2\2\2\35\36\t"+
+		"\2\2\2\36\7\3\2\2\2\37 \7\6\2\2 !\5\6\4\2!\"\7\r\2\2\"\t\3\2\2\2#$\7\7"+
+		"\2\2$%\7\r\2\2%\13\3\2\2\2&(\7\b\2\2\')\7\r\2\2(\'\3\2\2\2()\3\2\2\2)"+
+		"\r\3\2\2\2*+\7\17\2\2+,\t\3\2\2,\17\3\2\2\2\6\22\24\33(";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

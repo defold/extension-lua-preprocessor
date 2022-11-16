@@ -1,8 +1,8 @@
 lexer grammar LuaPreProcLexer ;
 
+EMPTY_LINE : '\r'? '\n' -> skip ;
 MODE_PP : PP_WS? '--#' -> channel(HIDDEN), pushMode(PreProc) ;
-MODE_LINE : . -> channel(HIDDEN), pushMode(LineMode) ;
-
+MODE_LINE : [\r\n]* -> channel(HIDDEN),pushMode(LineMode) ;
 
 mode PreProc ;
 

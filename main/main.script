@@ -2,9 +2,14 @@ local test = require("main.test")
 
 function init(self)
 	--#IF DEBUG 
-	label.set_text("#label", "Debug")
+label.set_text("#label", "Debug")
 	--#ELSE
-	label.set_text("#label", "Release")
+label.set_text("#label", "Release")
 	--#ENDIF
 	test.greet("Bob")
+
+--#IF HEADLESS 
+	print("HEADLESS ")
+	label.set_text("#label", "HEADLESS")
+--#ENDIF
 end
