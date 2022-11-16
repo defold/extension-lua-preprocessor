@@ -32,4 +32,7 @@ antlr4 LuaPreProc*.g4 &&  javac  LuaPre*.java && grun LuaPreProc codefile -tree
 
 Use online sandbox to make testing process easier: [http://lab.antlr.org](http://lab.antlr.org)
 
+---
+Use `build_plugin.sh` for the final build of the plugin `jar` file.
+
 Have fun! )
