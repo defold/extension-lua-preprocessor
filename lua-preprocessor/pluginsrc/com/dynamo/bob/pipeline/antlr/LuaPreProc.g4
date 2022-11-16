@@ -11,4 +11,4 @@ ifdef    : PP_IFDEF param PP_EOL ;
 elsedef  : PP_ELSE  PP_EOL ;
 endif    : PP_ENDIF PP_EOL? ;
 
-line     : TEXT (PP_EOL | EOL | EOF) ;
+line     : TEXT (PP_EOL | EOL | EOF?) ;
