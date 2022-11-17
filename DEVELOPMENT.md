@@ -29,8 +29,8 @@ antlr4 LuaPreProc*.g4 &&  javac  LuaPre*.java && grun LuaPreProc codefile -tree
 ```
 
 * Paste your code
-* <Enter>
-* <Cmd+D>
+* Press `Enter`
+* Press `Cmd+D`
 
 Use online sandbox to make testing process easier: [http://lab.antlr.org](http://lab.antlr.org)
 
