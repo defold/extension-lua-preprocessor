@@ -27,8 +27,10 @@ antlr4 LuaPreProc*.g4  -package com.dynamo.bob.pipeline.antlr
 ```
 antlr4 LuaPreProc*.g4 &&  javac  LuaPre*.java && grun LuaPreProc codefile -tree
 ```
--Enter
--Cmd+D
+
+* Paste your code
+* <Enter>
+* <Cmd+D>
 
 Use online sandbox to make testing process easier: [http://lab.antlr.org](http://lab.antlr.org)
 
