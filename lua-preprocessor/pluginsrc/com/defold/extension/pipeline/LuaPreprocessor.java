@@ -1,4 +1,4 @@
-package com.dynamo.bob.pipeline;
+package com.defold.extension.pipeline;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.nio.file.StandardCopyOption;
 
 import com.dynamo.bob.Bob;
 import com.dynamo.bob.Platform;
-import com.dynamo.bob.pipeline.LuaBuilderPlugin;
 import com.dynamo.bob.util.TimeProfiler;
 
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,7 +23,7 @@ import com.dynamo.bob.pipeline.antlr.LuaPreProcLexer;
 import com.dynamo.bob.pipeline.antlr.LuaPreProcListener;
 import com.dynamo.bob.pipeline.antlr.LuaPreProcBaseListener;
 
-public class LuaPreprocessor extends LuaBuilderPlugin {
+public class LuaPreprocessor implements ILuaPreprocessor {
 
 private static StringBuffer parsedBuffer = null;
 private static Boolean hasChanges;
@@ -59,7 +58,7 @@ private static int currentBuildVariant;
     }
 
     @Override
-    public String create(String filePath, String input, String buildVariant) throws Exception {
+    public String preprocess(String input, String filePath, String buildVariant) throws Exception {
         TimeProfiler.start("LuaPreprocessor");
         Bob.verbose("LuaPreprocessor %s", filePath);
         setBuildVariant(buildVariant);
@@ -79,11 +78,6 @@ private static int currentBuildVariant;
             return parsedBuffer.toString();
         }
         Bob.verbose("LuaPreprocessor: file has no preprocessing directives");
-        return input;
-    }
-
-    @Override
-    public String build(String input) throws Exception {
         return input;
     }
 
