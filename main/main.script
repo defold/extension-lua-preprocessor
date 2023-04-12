@@ -14,10 +14,3 @@ label.set_text("#label", "Release")
 --#ENDIF
 
 end
-
-local function test()
-	--#if some_expression then
-	print("Test")
-	--#endif
-end
-
