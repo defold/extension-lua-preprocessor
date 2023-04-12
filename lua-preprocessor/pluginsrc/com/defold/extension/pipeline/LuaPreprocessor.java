@@ -13,10 +13,13 @@ import com.dynamo.bob.Bob;
 import com.dynamo.bob.Platform;
 import com.dynamo.bob.util.TimeProfiler;
 
+import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.RecognitionException;
 
 import com.dynamo.bob.pipeline.antlr.LuaPreProcParser;
 import com.dynamo.bob.pipeline.antlr.LuaPreProcLexer;
@@ -27,6 +30,7 @@ public class LuaPreprocessor implements ILuaPreprocessor {
 
 private static StringBuffer parsedBuffer = null;
 private static Boolean hasChanges;
+private static String errorMessage;
 private static int currentBuildVariant;
 
     // replace the token with an empty string
@@ -60,24 +64,38 @@ private static int currentBuildVariant;
     @Override
     public String preprocess(String input, String filePath, String buildVariant) throws Exception {
         TimeProfiler.start("LuaPreprocessor");
-        Bob.verbose("LuaPreprocessor %s", filePath);
         setBuildVariant(buildVariant);
         LuaPreprocessor.hasChanges = false;
+        LuaPreprocessor.errorMessage = null;
         parsedBuffer = new StringBuffer(input);
         LuaPreProcLexer lexer = new LuaPreProcLexer(CharStreams.fromString(input));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         LuaPreProcParser parser = new LuaPreProcParser(tokenStream);
+        parser.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+                    int charPositionInLine, String msg, RecognitionException e) {
+                    if (LuaPreprocessor.errorMessage == null) {
+                        LuaPreprocessor.errorMessage = String.format("%s:%d %s", filePath, line, msg);
+                    }
+            }
+        });
+
         ParseTreeWalker walker = new ParseTreeWalker();
         LuaPreprocessor.LuaPreprocessorListener listener = new LuaPreprocessor.LuaPreprocessorListener();
         walker.walk(listener, parser.codefile());
 
         TimeProfiler.stop();
 
+        if (LuaPreprocessor.errorMessage != null) {
+            throw new Exception(LuaPreprocessor.errorMessage);
+        }
+
         if (LuaPreprocessor.hasChanges) {
             Bob.verbose("LuaPreprocessor: apply %s", buildVariant);
             return parsedBuffer.toString();
         }
-        Bob.verbose("LuaPreprocessor: file has no preprocessing directives");
+
         return input;
     }
 

@@ -12,4 +12,5 @@ label.set_text("#label", "Release")
 	print("HEADLESS ")
 	label.set_text("#label", "HEADLESS")
 --#ENDIF
+
 end
