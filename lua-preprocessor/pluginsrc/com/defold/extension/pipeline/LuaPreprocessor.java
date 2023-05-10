@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -27,17 +28,18 @@ import com.dynamo.bob.pipeline.antlr.LuaPreProcListener;
 import com.dynamo.bob.pipeline.antlr.LuaPreProcBaseListener;
 
 public class LuaPreprocessor implements ILuaPreprocessor {
+    private static Logger logger = Logger.getLogger(LuaPreprocessor.class.getName());
 
-private static StringBuffer parsedBuffer = null;
-private static Boolean hasChanges;
-private static String errorMessage;
-private static int currentBuildVariant;
+    private static StringBuffer parsedBuffer = null;
+    private static Boolean hasChanges;
+    private static String errorMessage;
+    private static int currentBuildVariant;
 
     // replace the token with an empty string
     private static void removeToken(Token token) {
         LuaPreprocessor.hasChanges = true;
         int from = token.getStartIndex();
-        Bob.verbose("removeToken %s", token.getText());
+        logger.fine("removeToken " + token.getText());
         int to = from + token.getText().length() - 1;
         for(int i = from; i <= to; i++) {
             parsedBuffer.replace(i, i + 1, " ");
@@ -92,7 +94,7 @@ private static int currentBuildVariant;
         }
 
         if (LuaPreprocessor.hasChanges) {
-            Bob.verbose("LuaPreprocessor: apply %s", buildVariant);
+            logger.fine("LuaPreprocessor: apply " + buildVariant);
             return parsedBuffer.toString();
         }
 

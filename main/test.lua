@@ -3,9 +3,10 @@ local M = {
 
 function M.greet(name)
 --#IF RELEASE 
-	print("Hello " .. name)
+	-- use io.stdout as that will still write to stdout in release mode
+	io.stdout:write("Hello " .. name .. "\n")
 --#ELSE
-	print("More debug info:"..name)
+	print("More debug info: " .. name)
 --#ENDIF
 
 end
