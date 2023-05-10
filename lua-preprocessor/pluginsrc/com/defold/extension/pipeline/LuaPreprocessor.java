@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import com.dynamo.bob.Bob;
 import com.dynamo.bob.Platform;
-import com.dynamo.bob.logging.Logger;
 import com.dynamo.bob.util.TimeProfiler;
 
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -39,7 +39,7 @@ public class LuaPreprocessor implements ILuaPreprocessor {
     private static void removeToken(Token token) {
         LuaPreprocessor.hasChanges = true;
         int from = token.getStartIndex();
-        logger.fine("removeToken %s", token.getText());
+        logger.fine("removeToken " + token.getText());
         int to = from + token.getText().length() - 1;
         for(int i = from; i <= to; i++) {
             parsedBuffer.replace(i, i + 1, " ");
@@ -94,7 +94,7 @@ public class LuaPreprocessor implements ILuaPreprocessor {
         }
 
         if (LuaPreprocessor.hasChanges) {
-            logger.fine("LuaPreprocessor: apply %s", buildVariant);
+            logger.fine("LuaPreprocessor: apply " + buildVariant);
             return parsedBuffer.toString();
         }
 
