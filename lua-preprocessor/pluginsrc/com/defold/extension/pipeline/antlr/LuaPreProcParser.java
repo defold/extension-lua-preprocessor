@@ -130,10 +130,10 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(16); 
+			setState(18);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PP_IFDEF) | (1L << PP_ELSE) | (1L << PP_ENDIF) | (1L << TEXT))) != 0)) {
 				{
 				setState(16);
 				_errHandler.sync(this);
@@ -156,11 +156,11 @@ public class LuaPreProcParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(18); 
+				setState(20);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PP_IFDEF) | (1L << PP_ELSE) | (1L << PP_ENDIF) | (1L << TEXT))) != 0) );
-			setState(20);
+			}
+			setState(21);
 			match(EOF);
 			}
 		}
@@ -203,27 +203,27 @@ public class LuaPreProcParser extends Parser {
 		PreprocContext _localctx = new PreprocContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_preproc);
 		try {
-			setState(25);
+			setState(26);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PP_IFDEF:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(22);
+				setState(23);
 				ifdef();
 				}
 				break;
 			case PP_ELSE:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(23);
+				setState(24);
 				elsedef();
 				}
 				break;
 			case PP_ENDIF:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(24);
+				setState(25);
 				endif();
 				}
 				break;
@@ -267,7 +267,7 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27);
+			setState(28);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PP_PARAM_RELEASE) | (1L << PP_PARAM_DEBUG) | (1L << PP_PARAM_HEADLESS))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -316,11 +316,11 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
-			match(PP_IFDEF);
 			setState(30);
-			param();
+			match(PP_IFDEF);
 			setState(31);
+			param();
+			setState(32);
 			match(PP_EOL);
 			}
 		}
@@ -358,9 +358,9 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
-			match(PP_ELSE);
 			setState(34);
+			match(PP_ELSE);
+			setState(35);
 			match(PP_EOL);
 			}
 		}
@@ -399,14 +399,14 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(37);
 			match(PP_ENDIF);
-			setState(38);
+			setState(39);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==PP_EOL) {
 				{
-				setState(37);
+				setState(38);
 				match(PP_EOL);
 				}
 			}
@@ -449,20 +449,20 @@ public class LuaPreProcParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40);
+			setState(41);
 			match(TEXT);
-			setState(46);
+			setState(47);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PP_EOL:
 				{
-				setState(41);
+				setState(42);
 				match(PP_EOL);
 				}
 				break;
 			case EOL:
 				{
-				setState(42);
+				setState(43);
 				match(EOL);
 				}
 				break;
@@ -472,12 +472,12 @@ public class LuaPreProcParser extends Parser {
 			case PP_ENDIF:
 			case TEXT:
 				{
-				setState(44);
+				setState(45);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 				case 1:
 					{
-					setState(43);
+					setState(44);
 					match(EOF);
 					}
 					break;
@@ -501,20 +501,20 @@ public class LuaPreProcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20\63\4\2\t\2\4\3"+
-		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\6\2\23\n\2\r\2\16"+
-		"\2\24\3\2\3\2\3\3\3\3\3\3\5\3\34\n\3\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3\6\3"+
-		"\6\3\7\3\7\5\7)\n\7\3\b\3\b\3\b\3\b\5\b/\n\b\5\b\61\n\b\3\b\2\2\t\2\4"+
-		"\6\b\n\f\16\2\3\3\2\t\13\2\63\2\22\3\2\2\2\4\33\3\2\2\2\6\35\3\2\2\2\b"+
-		"\37\3\2\2\2\n#\3\2\2\2\f&\3\2\2\2\16*\3\2\2\2\20\23\5\4\3\2\21\23\5\16"+
-		"\b\2\22\20\3\2\2\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2"+
-		"\2\2\25\26\3\2\2\2\26\27\7\2\2\3\27\3\3\2\2\2\30\34\5\b\5\2\31\34\5\n"+
-		"\6\2\32\34\5\f\7\2\33\30\3\2\2\2\33\31\3\2\2\2\33\32\3\2\2\2\34\5\3\2"+
-		"\2\2\35\36\t\2\2\2\36\7\3\2\2\2\37 \7\6\2\2 !\5\6\4\2!\"\7\r\2\2\"\t\3"+
-		"\2\2\2#$\7\7\2\2$%\7\r\2\2%\13\3\2\2\2&(\7\b\2\2\')\7\r\2\2(\'\3\2\2\2"+
-		"()\3\2\2\2)\r\3\2\2\2*\60\7\17\2\2+\61\7\r\2\2,\61\7\20\2\2-/\7\2\2\3"+
-		".-\3\2\2\2./\3\2\2\2/\61\3\2\2\2\60+\3\2\2\2\60,\3\2\2\2\60.\3\2\2\2\61"+
-		"\17\3\2\2\2\b\22\24\33(.\60";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20\64\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\7\2\23\n\2\f\2\16"+
+		"\2\26\13\2\3\2\3\2\3\3\3\3\3\3\5\3\35\n\3\3\4\3\4\3\5\3\5\3\5\3\5\3\6"+
+		"\3\6\3\6\3\7\3\7\5\7*\n\7\3\b\3\b\3\b\3\b\5\b\60\n\b\5\b\62\n\b\3\b\2"+
+		"\2\t\2\4\6\b\n\f\16\2\3\3\2\t\13\2\64\2\24\3\2\2\2\4\34\3\2\2\2\6\36\3"+
+		"\2\2\2\b \3\2\2\2\n$\3\2\2\2\f\'\3\2\2\2\16+\3\2\2\2\20\23\5\4\3\2\21"+
+		"\23\5\16\b\2\22\20\3\2\2\2\22\21\3\2\2\2\23\26\3\2\2\2\24\22\3\2\2\2\24"+
+		"\25\3\2\2\2\25\27\3\2\2\2\26\24\3\2\2\2\27\30\7\2\2\3\30\3\3\2\2\2\31"+
+		"\35\5\b\5\2\32\35\5\n\6\2\33\35\5\f\7\2\34\31\3\2\2\2\34\32\3\2\2\2\34"+
+		"\33\3\2\2\2\35\5\3\2\2\2\36\37\t\2\2\2\37\7\3\2\2\2 !\7\6\2\2!\"\5\6\4"+
+		"\2\"#\7\r\2\2#\t\3\2\2\2$%\7\7\2\2%&\7\r\2\2&\13\3\2\2\2\')\7\b\2\2(*"+
+		"\7\r\2\2)(\3\2\2\2)*\3\2\2\2*\r\3\2\2\2+\61\7\17\2\2,\62\7\r\2\2-\62\7"+
+		"\20\2\2.\60\7\2\2\3/.\3\2\2\2/\60\3\2\2\2\60\62\3\2\2\2\61,\3\2\2\2\61"+
+		"-\3\2\2\2\61/\3\2\2\2\62\17\3\2\2\2\b\22\24\34)/\61";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
